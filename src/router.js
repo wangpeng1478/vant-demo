@@ -6,13 +6,20 @@ Vue.use(Router);
 const routes = [
   {
     path: '*',
-    redirect: '/goods'
+    redirect: '/home'
   },
   {
-    name: 'user',
-    component: () => import('./view/user'),
+    name: 'home',
+    component: () => import('./view/home'),
     meta: {
-      title: '会员中心'
+      title: '首页'
+    }
+  },
+  {
+    name: 'list',
+    component: () => import('./view/list'),
+    meta: {
+      title: '商品列表'
     }
   },
   {
@@ -20,6 +27,13 @@ const routes = [
     component: () => import('./view/cart'),
     meta: {
       title: '购物车'
+    }
+  },
+  {
+    name: 'user',
+    component: () => import('./view/user'),
+    meta: {
+      title: '会员中心'
     }
   },
   {
@@ -40,11 +54,20 @@ const router = new Router({ routes });
 
 router.beforeEach((to, from, next) => {
   const title = to.meta && to.meta.title;
-  if (title) {
-    document.title = title;
-  }
+
+  if (to.name == null) {
+    alert('no')
+  } else {
+    if (title) {
+       document.title = title;
+    }
   next();
+  }
 });
+router.afterEach((to) => {
+  window.scrollTo(0, 0);
+});
+
 
 export {
   router

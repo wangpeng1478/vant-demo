@@ -29,11 +29,15 @@
       <van-cell icon="gold-coin" title="我的优惠券" is-link />
       <van-cell icon="gift" title="我收到的礼物" is-link />
     </van-cell-group>
+
+
+    <Tabbars :actives="3"></Tabbars>
   </div>
 </template>
 
 <script>
 import { Row, Col, Icon, Cell, CellGroup } from 'vant';
+import Tabbars from '../module/index.vue';
 
 export default {
   components: {
@@ -41,7 +45,8 @@ export default {
     [Col.name]: Col,
     [Icon.name]: Icon,
     [Cell.name]: Cell,
-    [CellGroup.name]: CellGroup
+    [CellGroup.name]: CellGroup,
+    Tabbars
   }
 };
 </script>
