@@ -3,7 +3,7 @@
         <van-tabbar v-model="active">
             <van-tabbar-item to="home" icon="shop">首页</van-tabbar-item>
             <van-tabbar-item to="list" icon="pending-deliver">列表</van-tabbar-item>
-            <van-tabbar-item to="cart" icon="cart" :info="cartInfo">购物车</van-tabbar-item>
+            <van-tabbar-item to="cart" icon="cart" :info="maxCartInfo(cartInfo)">购物车</van-tabbar-item>
             <van-tabbar-item to="user" icon="contact">我的</van-tabbar-item>
         </van-tabbar>
     </div>
@@ -31,6 +31,11 @@ export default {
             loc.set('cart',1)
         }else{
             loc.set('cart',loc.get('cart')+1)
+        }
+    },
+    methods:{
+        maxCartInfo(num){
+           return  num>=100?'99+':num<=0?'':num
         }
     }
 };

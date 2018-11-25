@@ -10,4 +10,7 @@ body {
   background-color: #f8f8f8;
   -webkit-font-smoothing: antialiased;
 }
+.DialogCenter .van-dialog__content{
+	text-align: center;
+}
 </style>

@@ -54,14 +54,13 @@ const router = new Router({ routes });
 
 router.beforeEach((to, from, next) => {
   const title = to.meta && to.meta.title;
-
   if (to.name == null) {
     alert('no')
   } else {
     if (title) {
        document.title = title;
     }
-  next();
+   next();
   }
 });
 router.afterEach((to) => {
