@@ -29,6 +29,9 @@ new Vue({
             openId: loc.get('openId')
         };
     },
+    updated(){
+      // 
+    },
     mounted() {
         let vm = this;
         // 添加请求拦截器
@@ -58,7 +61,16 @@ new Vue({
 
         // 添加响应拦截器
         axios.interceptors.response.use(function(response) {
-            return response;
+            if(response.data.state=="success"){
+              return response.data;
+            }else{
+               Dialog.alert({
+                className:'DialogCenter',
+                title: '错误',
+                message: 'ajax error'
+              })
+            }
+            
         }, function(error) {
 
             return Promise.reject(error);

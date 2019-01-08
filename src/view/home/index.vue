@@ -1,74 +1,102 @@
 <template>
-    <div>
-        <h2 @click="onSubmit">{{name}}</h2>
-        <Tabbars :actives="0"></Tabbars>
-        <div v-for="(item,idnex) in list" :key="item.id">
-          <p>{{idnex}}</p>
-          <p>{{item.id}}</p>
-          <p>{{item.title}}</p>
-          <img :src="item.image" :alt="item.title" :title="item.title">
+    <div class="home">
+        <van-notice-bar :text="homeDate.notice" mode="closeable"></van-notice-bar>
+        <van-swipe class="home-swipe" :autoplay="3000">
+            <van-swipe-item v-for="thumb in images" :key="thumb">
+                <img :src="thumb" />
+            </van-swipe-item>
+        </van-swipe>
+        <div class="homeMSi">-今日推荐-</div>
+        <div class="recommend">
+            <div v-for="thumb in mcRecommendList" :key="index">
+               <img :src="thumb.bannerAttachment" alt="">
+            </div>
         </div>
+        <div class="homeMSi">-好物推荐-</div>
+        <Tabbars :actives="0"></Tabbars>
     </div>
 </template>
 <script>
 import axios from 'axios';
 import Tabbars from '../module/index.vue';
+import { Loading, PullRefresh, Swipe, Lazyload, SwipeItem, NoticeBar, Icon } from 'vant';
+
 export default {
     components: {
         Tabbars,
+        [Loading.name]: Loading,
+        [PullRefresh.name]: PullRefresh,
+        [Lazyload.name]: Lazyload,
+        [Swipe.name]: Swipe,
+        [NoticeBar.name]: NoticeBar,
+        [SwipeItem.name]: SwipeItem,
+        [Icon.name]: Icon,
     },
 
     data() {
         return {
             time: new Date().toLocaleString(),
-            name: '首页',
-            list:[]
+            homeDate: {},
+            images: [],
+            mcRecommendList:[]
         };
+    },
+    mounted() {
+        this.onSubmit();
     },
     methods: {
         onSubmit() {
-          var vm = this;
+            var vm = this;
             axios({
                     method: 'post',
-                    url: '/test'
+                    url: '/home'
                 })
                 .then(function(res) {
-                    console.log(res)
-                    vm.list = res.data.data.wpppp
+                    vm.homeDate = res.data;
+                    vm.mcRecommendList = res.mcRecommendList;
+                    console.log(vm.mcRecommendList);
+                    if (res.data.bannerAttachment1 != "") {
+                        vm.images.push(res.data.bannerAttachment1)
+                    }
+                    if (res.data.bannerAttachment2 != "") {
+                        vm.images.push(res.data.bannerAttachment2)
+                    }
+                    if (res.data.bannerAttachment3 != "") {
+                        vm.images.push(res.data.bannerAttachment3)
+                    }
+                    if (res.data.bannerAttachment4 != "") {
+                        vm.images.push(res.data.bannerAttachment4)
+                    }
+                    if (res.data.bannerAttachment5 != "") {
+                        vm.images.push(res.data.bannerAttachment5)
+                    }
+                    if (res.data.bannerAttachment6 != "") {
+                        vm.images.push(res.data.bannerAttachment6)
+                    }
                 })
                 .catch(function(err) {
-
+                    alert(err)
                 })
         }
     }
 };
 </script>
 <style lang="less" scoped>
-.card-goods {
-    padding: .2rem 0;
-    background-color: #fff;
+.home {
+    background: #f2f2f2;
 
-    &__item {
-        position: relative;
-        background-color: #fafafa;
-
-        .van-checkbox__label {
+    .home-swipe {
+        img {
             width: 100%;
-            padding: 0 .2rem 0 15px;
-            box-sizing: border-box;
-        }
-
-        .van-checkbox__icon {
-            top: 50%;
-            left: .2rem;
-            z-index: 1;
-            position: absolute;
-            margin-top: -.2rem;
-        }
-
-        .van-card__price {
-            color: #f44;
         }
     }
+
+    .homeMSi {
+        font-size: 0.3rem;
+        text-align: center;
+        color: #666;
+    }
 }
+
+// <link rel="stylesheet" type="text/css" href="${ctx}/static/weixin/big/icons/iconfont.css">
 </style>
